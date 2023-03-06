@@ -1,0 +1,40 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+
+        ListNode* helper = head;
+        ListNode* result = head;
+        int total_num = 0;
+
+        while(helper){
+            total_num += 1;
+            helper = helper->next;
+        }
+
+        if(total_num == 0)  return nullptr;
+        if(total_num == 1)  return nullptr;
+        if(total_num == n)  return head->next;
+
+        for(int i = 1; i < total_num-n ; i++){
+            head = head->next;
+        }
+        ListNode* tempnode = head->next;
+        head->next = tempnode->next;
+        return result;
+    }
+};
+
+//先遍历一遍整个list，记录整个list的元素数量，可以将倒数第n个节点转换为正序
+//在遍历链表的时候记得创建一个新的链表变量helper，遍历helper而不是原head节点以防便利后丢失头节点
+//在要对原链表进行修正时，也要记得先将头节点记录下来，防止丢失
+//删除节点的思路为：创建一个临时节点temp，temp = head->next 而后另head节点指向temp->next；或者直接head->next = head->next->next;
