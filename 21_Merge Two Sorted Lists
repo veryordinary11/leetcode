@@ -1,0 +1,29 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if(!list1)  return list2;
+        if(!list2)  return list1;
+        if(list1->val <= list2->val){
+            list1->next = mergeTwoLists(list1->next,list2);
+            return list1;
+        }
+        else{
+            list2->next = mergeTwoLists(list1,list2->next);
+            return list2;
+        }
+    }
+};
+
+//用递归的思路，base case是若list1或list2为空，则直接返回另一个链表 判断链表是否为非空if(list)  是否为空if(!list)
+//若都不空，则比较头节点的值，较小的拿出来，把剩余的两个链表继续merge 由此递归
+//注意在写的时候不能写成return ListNode(list1->val,mergeTwoLists(list1->next,list2); 为什么？
