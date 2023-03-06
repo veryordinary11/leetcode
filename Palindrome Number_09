@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        int flag = 1; //to indicate if the integer is palindrome
+        stringstream steam;
+        steam << x;
+        string x_string;
+        steam >> x_string;
+        for(int i = 0; i < x_string.length()/2 ; i++){
+            if(x_string[i] != x_string[x_string.length()-i-1]){
+                flag = 0;
+                break;
+            }
+        }
+        if(flag == 1)   return true;
+        else    return false;
+    }
+};
+
+//核心在于把int型变量转化为string字符串 方法有两种
+
+//1. stringstream steam；
+//   steam << x;(要进行转化的int型变量）
+//   string x_string;
+//   steam >> x_string;
+
+//2. string x_string = to_string(x);
