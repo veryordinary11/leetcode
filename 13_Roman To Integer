@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int romanToInt(string s) {
+        unordered_map<char, int> value = {
+            {'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, 
+            {'C', 100}, {'D', 500}, {'M', 1000}
+        };
+        int result = 0;
+        for( int i = 0; i < s.length(); i++){
+            if(i+1 < s.length() && value[s[i]] < value[s[i+1]]) {
+                result += -value[s[i]];
+            }
+            else{
+                result += value[s[i]];
+            }
+        }    
+        return result;
+    }    
+};
+
+//又用到了哈希表 先将符号对应的数值以<char,int>的形式存放在unordered map中
+//判断s[i]对应的value是否小于s[i+1] 若小于则该位置的符号表负值
