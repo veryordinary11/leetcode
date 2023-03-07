@@ -1,0 +1,25 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if(head == nullptr) return head;
+        if(head->next == nullptr)   return head;
+
+        ListNode* helper = head->next;
+        ListNode* temp = swapPairs(helper->next);
+        helper->next = head;
+        head->next = temp;
+        return helper;
+    }
+};
+
+//用了递归的思路，将链表的前两个节点交换递归进行
