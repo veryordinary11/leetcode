@@ -1,0 +1,67 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* Helper(ListNode* head){
+        if(!head)   return NULL;
+        if(head->val == -101) return NULL;
+        ListNode* temp = head;
+        while(temp->next){
+            temp = temp->next;
+        }
+        int last_val = temp->val;
+        if(last_val != -101) return head;
+        else{
+            ListNode* p1 = head;
+            while(p1->next->next){
+                p1 = p1->next;
+            }
+            p1->next = nullptr;
+            return head;
+        }
+    }
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(!head || !head->next)    return head;
+        ListNode* p1 = head;
+        ListNode* p2 = head->next;
+        int flag = 0;
+        while(p2){
+            if(p1->val != p2->val && flag == 0){
+                p1 = p1->next;
+                p2 = p2->next;
+            }
+            else if(p1->val == p2->val){
+                p2 = p2->next;
+                flag = 1;
+            }
+            else if(p1->val != p2->val && flag == 1){
+                p1->val = p2->val;
+                p1->next = p2->next;
+                p2 = p2->next;
+                flag = 0;
+            }
+        }
+        if(flag == 1){
+            p1->val = -101;
+            p1->next = nullptr;
+            head = Helper(head);
+        }
+        return head;
+    }
+};
+
+//我选用了双指针法，有几个点需要注意
+//第一个是如何完成“删除节点”的操作，我要删除p1节点到p2节点中间的所有节点，如果知道p1的前序节点会很容易（三指针），但是现在因为使用的是双指针法
+//这个操作变成了1.把p1的val改为p2的val，把p1的后后序节点改为p2的后序节点，从而完成“删除”操作
+//第二个是当重复发生在结尾时，该如何删除最后的那些重复节点？ 因为此时p2已经到了末尾，变成了nullptr，跳出了while循环，所以要在循环后额外判断一次flag
+//flag若为1则表明结尾段是重复的，要删除结尾这段重复的节点，显然因为p2已经为空，我们不能再用之前交换val的方法进行删除，这里我用了一个辅助函数helper
+//将p1-val变为-101（只是一个标记，一开始想用-1，后来发现-1会跟题设冲突，改为-101），然后辅助函数的功能是将结尾节点val为-101的链表删除尾部节点然后返回
+//否则就直接返回原链表
