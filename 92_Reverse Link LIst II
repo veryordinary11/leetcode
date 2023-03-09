@@ -1,0 +1,59 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+
+    ListNode* reverseFirstkList(ListNode* head, int k){
+        ListNode* next;
+        ListNode* prev;
+        ListNode* helper = head;
+        if(!head)   return head;
+        if(!head->next) return head;
+        for(int p = 1; p < k; p++){
+            helper = helper->next;
+        }
+        prev = helper->next;
+
+        if(k == 1)  return head;
+        for(int i = 1; i <= k ; i++){
+            next = head->next;
+            head->next = prev;
+            prev = head;
+            head = next;
+        }
+        return prev;
+    }
+
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        if(!head||!head->next)  return head;
+        int k = right - left + 1;
+        int count = 1;
+        ListNode* helper = head;
+        ListNode* dummy = new ListNode();
+        dummy->next = head;
+        if(left == 1){
+            dummy->next = reverseFirstkList(head,k);
+        }
+        else{
+            while(count < left - 1){
+                helper = helper->next;
+                count += 1;
+            }
+            helper->next = reverseFirstkList(helper->next,k);
+        }
+        return dummy->next;
+    }
+};
+
+//用到了之前一道题的函数，即input一个链表，将该链表的前k个节点进行倒置，然后返回倒置后的链表
+//这个函数的一个特殊情况是直接倒置整个链表（即当k的值==链表的长度时），这时prev节点是链表的最后一个节点
+//本题的思路是将需要倒转的那部分链表输入到第一个函数中，k的值则为需要倒转那部分链表的长度（right-left+1）
+//然后再把倒转后的链表和原链表拼接起来，返回即可
