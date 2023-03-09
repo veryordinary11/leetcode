@@ -1,0 +1,62 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(!head)   return false;
+        int flag = 0;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+            if(slow == fast){
+                flag = 1;
+                break;
+            }
+        }
+        if(flag == 1)  return true;
+        else    return false;
+    }
+};
+
+//快慢指针法，快指针一次前进两步，慢指针一次前进一步，如果存在循环的话，则两指针一定会相遇
+______________________________________________________________________________________________________________________________
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        vector<ListNode*> record;
+        int flag = 0;
+        ListNode* temp = head;
+        if(!head)   return false;
+        while(temp->next){
+            if(find(record.begin(),record.end(),temp) != record.end()){
+                flag = 1;
+                break;
+            }
+            record.push_back(temp);
+            temp = temp->next;
+        }
+        if(flag == 1)   return true;
+        else    return false;
+    }
+};
+
+//我的方法，先创建一个vector存放节点，然后遍历链表，每次先判断该节点是否已经遍历过
+//如果遍历过，则表示存在循环，跳出while循环，返回true
+//如果未遍历过，则将该节点存入vector，代表此节点已经遍历过，继续遍历整个链表
