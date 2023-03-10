@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> record;
+        vector<int> result;
+        for(int i = 0; i < nums1.size(); i++){
+            record.insert(nums1[i]);
+        }
+        for(int j = 0; j < nums2.size(); j++){
+            if(record.find(nums2[j]) != record.end()){
+                result.push_back(nums2[j]);
+                record.erase(nums2[j]);
+            }
+        }
+        return result;
+    }
+};
+
+——————————————————————————————————————-——————————————————————————————————————-——————————————————————————————————————-
+
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        int hash1[1005] = {0};
+        int hash2[1005] = {0};
+        vector<int> result;
+        for(int i = 0; i < nums1.size(); i++){
+            hash1[nums1[i]]++;
+        }
+        for(int j = 0; j < nums2.size(); j++){
+            hash2[nums2[j]]++;
+        }
+        for(int m = 0; m < 1005; m++){
+            if(hash1[m] != 0 && hash2[m] != 0){
+                result.push_back(m);
+            }
+        }
+        return result;
+
+    }
+};
+
+//用哈希表法，因为这道题目要求两个向量中的元素值小于1000，所以可以选用更快捷的数组当作哈希表
+//如果没有这个要求，可以用unordered_set，先将nums1中的元素存到set中（自动去重），然后遍历nums2
+//如果nums2中的元素在set中被找到了（也就是两者的交集），就把该元素存到result向量中，要记住*去重，将该元素在set中抹除*
