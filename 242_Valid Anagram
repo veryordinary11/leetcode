@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        int hash[26] = {0};
+        for(int i = 0; i < s.size() ; i++){
+            hash[s[i] - 'a'] += 1;
+        }
+        for(int j = 0; j < t.size() ; j++){
+            hash[t[j] - 'a'] -= 1;
+        }
+        for(int m = 0; m < 26 ; m++){
+            if(hash[m] != 0){
+                return false;
+                break;
+            }
+        }
+        return true;
+
+    }
+};
+
+//哈希表法，在元素较少的情况下，本题只有小写字母(a-z)26个，考虑用数组（数组/set/map）
+//此外也可以用sort的方法，把string升序排列返回，直接比较
