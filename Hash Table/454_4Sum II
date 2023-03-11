@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
+        int count = 0;
+        int key_12;
+        int key_34;
+        unordered_map<int,int> record;
+
+        for(int i1 = 0; i1 < nums1.size(); i1++){
+            for(int i2 = 0; i2 < nums2.size(); i2++){
+                key_12 = nums1[i1] + nums2[i2];
+                record[key_12]+=1;
+            }
+        }
+        for(int i3 = 0; i3 < nums3.size(); i3++){
+            for(int i4 = 0; i4 < nums4.size(); i4++){
+                key_34 = nums3[i3] + nums4[i4];
+                if(record.count(-key_34)){
+                    count+=record[-key_34];
+                }
+            }
+        }
+        return count;    
+    }
+};
+
+//用哈希表法，数据结构选择unordered map，key存放数组元素的和，value存放该值出现的次数
+//现将第一、二个数组进行遍历，将遍历结果存放在map中，这样空间复杂度就是n^2
+//再遍历第三、四个数组进行遍历，在map中寻找相加之和的相反数，如果可以找到，count+=value
+//在c++中，unordered_map中如果未加申明，value的值默认为0
