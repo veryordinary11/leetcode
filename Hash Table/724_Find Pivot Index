@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int pivotIndex(vector<int>& nums) {
+        int left;
+        int right;
+        right = accumulate(nums.begin(),nums.end(),0);
+        left = 0;
+        for(int i = 0; i < nums.size(); i++){
+            right -= nums[i];
+            if(left == right)   return i;
+            left += nums[i];
+        }
+        return -1;
+    }
+};
+
+//accumulate函数
+// accumulate example
+#include <iostream>     // std::cout
+#include <functional>   // std::minus
+#include <numeric>      // std::accumulate
+
+int myfunction (int x, int y) {return x+2*y;}
+struct myclass {
+	int operator()(int x, int y) {return x+3*y;}
+} myobject;
+
+int main () {
+  int init = 100;
+  int numbers[] = {10,20,30};
+
+  std::cout << "using default accumulate: ";
+  std::cout << std::accumulate(numbers,numbers+3,init);
+  std::cout << '\n';
+
+  std::cout << "using functional's minus: ";
+  std::cout << std::accumulate (numbers, numbers+3, init, std::minus<int>());
+  std::cout << '\n';
+
+  std::cout << "using custom function: ";
+  std::cout << std::accumulate (numbers, numbers+3, init, myfunction);
+  std::cout << '\n';
+
+  std::cout << "using custom object: ";
+  std::cout << std::accumulate (numbers, numbers+3, init, myobject);
+  std::cout << '\n';
+
+  return 0;
+}
+
+/*output
+using default accumulate: 160
+using functional's minus: 40
+using custom function: 220
+using custom object: 280 */
