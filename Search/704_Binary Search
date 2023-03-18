@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int search_helper(vector<int>& nums, int target, int begin, int end){
+        if(begin > end) return -1;
+        int mid = begin + (end - begin) / 2;
+        if(target == nums[mid]) return mid;
+        if(target > nums[mid])  return search_helper(nums,target,mid+1,end);
+        return search_helper(nums,target,begin,mid-1);
+    }
+    
+    int search(vector<int>& nums, int target) {
+        return search_helper(nums,target,0,nums.size()-1);
+    }
+};
