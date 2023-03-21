@@ -19,14 +19,14 @@ public:
         arr.push_back(root->val);
         Preorder(root->left,arr);
         Preorder(root->right,arr);
-    }
+    }//先序遍历
 
     void Inorder(TreeNode* root, vector<int>& arr){
         if(root == NULL)    return;
         Inorder(root->left, arr);
         arr.push_back(root->val);
         Inorder(root->right, arr);
-    }
+    }//中序遍历
 
     TreeNode* buildTree_helper(vector<int>& preorder, int p_start, int p_end, vector<int>& inorder, int i_start, int i_end){
         if(p_start>p_end || i_start>i_end)  return NULL;
@@ -44,7 +44,7 @@ public:
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
         int length = preorder.size();
         return buildTree_helper(preorder,0,length-1,inorder,0,length-1);
-    }
+    }//用中序遍历和先序遍历构建一棵树
 
     void fix_preorder(vector<int>& preorder, vector<int>& inorder){
         int err1 = 0;
@@ -59,7 +59,7 @@ public:
             }
         }
         swap_preorder(preorder, err1, err2);
-    }
+    }//把原本错位节点树的先序遍历改成正确BST树的先序遍历序列
 
     void swap_preorder(vector<int>&preorder, int err1, int err2){
         vector<int>::iterator it1 = std::find(preorder.begin(),preorder.end(),err1);
@@ -68,7 +68,8 @@ public:
         int idx2 = std::distance(preorder.begin(),it2);
         preorder[idx1] = err2;
         preorder[idx2] = err1;
-    }
+    }//辅助，在一个数组中找到两个值并将他们交换
+    
     void change_tree(TreeNode* root, TreeNode* sample){
         if(root == NULL)    return;
         
@@ -76,7 +77,7 @@ public:
 
         change_tree(root->left,sample->left);
         change_tree(root->right,sample->right);
-    }
+    }//把原树改成sample树
 
     void recoverTree(TreeNode* root) {
         Preorder(root,arr_preorder);
