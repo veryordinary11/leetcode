@@ -5,12 +5,16 @@ public:
         int high = height.size() - 1;
         int curr_area = 0;
         int max_area = 0;
-        while(low <= high){
+        while(low < high){
             curr_area = (high - low) * min(height[low],height[high]);
-            if(curr_area > max_area)    max_area = curr_area;
+            max_area = max(max_area, curr_area);
 
-            if(height[low] <= height[high]) low++;
-            else    high--;
+            if(height[low] < height[high]) low++;
+            else if(height[low] > height[high])   high--;
+            else{
+                low++;
+                high--;
+            }
         }
         return max_area;
     }
