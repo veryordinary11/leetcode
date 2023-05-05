@@ -1,3 +1,3 @@
 # leetcode
-record my solution for leetcode problems.
-using c++
+## record my solution for leetcode problems.
+### using C++ and JS
