@@ -7,6 +7,7 @@
   Explanation: The substring "iii" contains 3 vowel letters.
  */
 
+//Sliding window
 var maxVowels = function (s, k) {
   const vowels = ["a", "e", "i", "o", "u"];
   let count = 0;
